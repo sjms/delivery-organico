@@ -3,10 +3,12 @@ package br.com.deliveryorganico.activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -78,7 +80,13 @@ public class CardapioActivity extends AppCompatActivity {
             idEmpresa = empresaSelecionada.getIdUsuario();
 
             String url = empresaSelecionada.getUrlImagem();
-            Picasso.get().load(url).into(imageEmpresaCardapio);
+
+            if (url == null || url.isEmpty()) {
+                Picasso.get().load(R.drawable.pedido).into(imageEmpresaCardapio);
+            } else {
+                Picasso.get().load(url).into(imageEmpresaCardapio);
+            }
+
 
         }
 
@@ -189,7 +197,7 @@ public class CardapioActivity extends AppCompatActivity {
 
         usuariosRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue() != null) {
                     usuario = dataSnapshot.getValue(Usuario.class);
                 }
