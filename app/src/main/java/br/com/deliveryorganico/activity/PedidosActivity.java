@@ -1,13 +1,15 @@
 package br.com.deliveryorganico.activity;
 
 import android.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -17,7 +19,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Objects;
 
 import br.com.deliveryorganico.R;
 import br.com.deliveryorganico.adapter.AdapterPedido;
@@ -29,107 +31,107 @@ import dmax.dialog.SpotsDialog;
 
 public class PedidosActivity extends AppCompatActivity {
 
-    private RecyclerView recyclerPedidos;
-    private AdapterPedido adapterPedido;
-    private List<Pedido> pedidos = new ArrayList<>();
-    private AlertDialog dialog;
-    private DatabaseReference firebaseRef;
-    private String idEmpresa;
+  private final List<Pedido> pedidos = new ArrayList<>();
+  private RecyclerView recyclerPedidos;
+  private AdapterPedido adapterPedido;
+  private AlertDialog dialog;
+  private DatabaseReference firebaseRef;
+  private String idEmpresa;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pedidos);
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_pedidos);
 
-        //Configurações iniciais
-        inicializarComponentes();
-        firebaseRef = ConfiguracaoFirebase.getFirebase();
-        idEmpresa = UsuarioFirebase.getIdUsuario();
+    //Configurações iniciais
+    inicializarComponentes();
+    firebaseRef = ConfiguracaoFirebase.getFirebase();
+    idEmpresa = UsuarioFirebase.getIdUsuario();
 
-        //Configuração Toolbar
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle("Pedidos");
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    //Configuração Toolbar
+    Toolbar toolbar = findViewById(R.id.toolbar);
+    toolbar.setTitle("Pedidos");
+    setSupportActionBar(toolbar);
+    Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
-        //Configura recyclerview
-        recyclerPedidos.setLayoutManager(new LinearLayoutManager(this));
-        recyclerPedidos.setHasFixedSize(true);
-        adapterPedido = new AdapterPedido(pedidos);
-        recyclerPedidos.setAdapter( adapterPedido );
+    //Configura recyclerview
+    recyclerPedidos.setLayoutManager(new LinearLayoutManager(this));
+    recyclerPedidos.setHasFixedSize(true);
+    adapterPedido = new AdapterPedido(pedidos);
+    recyclerPedidos.setAdapter(adapterPedido);
 
-        recuperarPedidos();
+    recuperarPedidos();
 
-        //Adiciona evento de clique no recyclerview
-        recyclerPedidos.addOnItemTouchListener(
-                new RecyclerItemClickListener(
-                        this,
-                        recyclerPedidos,
-                        new RecyclerItemClickListener.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(View view, int position) {
+    //Adiciona evento de clique no recyclerview
+    recyclerPedidos.addOnItemTouchListener(
+            new RecyclerItemClickListener(
+                    this,
+                    recyclerPedidos,
+                    new RecyclerItemClickListener.OnItemClickListener() {
+                      @Override
+                      public void onItemClick(View view, int position) {
+                        // nao faz nada
+                      }
 
-                            }
+                      @Override
+                      public void onLongItemClick(View view, int position) {
+                        Pedido pedido = pedidos.get(position);
+                        pedido.setStatus("finalizado");
+                        pedido.atualizarStatus();
+                      }
 
-                            @Override
-                            public void onLongItemClick(View view, int position) {
-                                Pedido pedido = pedidos.get( position );
-                                pedido.setStatus("finalizado");
-                                pedido.atualizarStatus();
-                            }
-
-                            @Override
-                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                            }
-                        }
-                )
-        );
-
-    }
-
-    private void recuperarPedidos() {
-
-        dialog = new SpotsDialog.Builder()
-                .setContext(this)
-                .setMessage("Carregando dados")
-                .setCancelable( false )
-                .build();
-        dialog.show();
-
-        DatabaseReference pedidoRef = firebaseRef
-                .child("pedidos")
-                .child(idEmpresa);
-
-        Query pedidoPesquisa = pedidoRef.orderByChild("status")
-                .equalTo("confirmado");
-
-        pedidoPesquisa.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                pedidos.clear();
-                if( dataSnapshot.getValue() != null ){
-                    for (DataSnapshot ds: dataSnapshot.getChildren()){
-                        Pedido pedido = ds.getValue(Pedido.class);
-                        pedidos.add(pedido);
+                      @Override
+                      public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        // nao faz nada
+                      }
                     }
-                    adapterPedido.notifyDataSetChanged();
-                    dialog.dismiss();
-                }
+            )
+    );
 
-            }
+  }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+  private void recuperarPedidos() {
 
-            }
-        });
+    dialog = new SpotsDialog.Builder()
+            .setContext(this)
+            .setMessage("Carregando dados")
+            .setCancelable(false)
+            .build();
+    dialog.show();
 
-    }
+    DatabaseReference pedidoRef = firebaseRef
+            .child("pedidos")
+            .child(idEmpresa);
 
-    private void inicializarComponentes(){
-        recyclerPedidos = findViewById(R.id.recyclerPedidos);
-    }
+    Query pedidoPesquisa = pedidoRef.orderByChild("status")
+            .equalTo("confirmado");
+
+    pedidoPesquisa.addValueEventListener(new ValueEventListener() {
+      @Override
+      public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+        pedidos.clear();
+        if (dataSnapshot.getValue() != null) {
+          for (DataSnapshot ds : dataSnapshot.getChildren()) {
+            Pedido pedido = ds.getValue(Pedido.class);
+            pedidos.add(pedido);
+          }
+          adapterPedido.notifyDataSetChanged();
+          dialog.dismiss();
+        }
+
+      }
+
+      @Override
+      public void onCancelled(@NonNull DatabaseError databaseError) {
+        // nao faz nada
+      }
+    });
+
+  }
+
+  private void inicializarComponentes() {
+    recyclerPedidos = findViewById(R.id.recyclerPedidos);
+  }
 
 }

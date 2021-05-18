@@ -1,5 +1,6 @@
 package br.com.deliveryorganico.adapter;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,10 +20,12 @@ import br.com.deliveryorganico.model.Empresa;
 
 public class AdapterEmpresa extends RecyclerView.Adapter<AdapterEmpresa.MyViewHolder> {
 
-  private List<Empresa> empresas;
+  private final List<Empresa> empresas;
+  private final  Context context;
 
-  public AdapterEmpresa(List<Empresa> empresas) {
+  public AdapterEmpresa(List<Empresa> empresas, Context context) {
     this.empresas = empresas;
+    this.context = context;
   }
 
   @NonNull
@@ -35,16 +38,16 @@ public class AdapterEmpresa extends RecyclerView.Adapter<AdapterEmpresa.MyViewHo
   @Override
   public void onBindViewHolder(@NonNull MyViewHolder holder, int i) {
     Empresa empresa = empresas.get(i);
+
     holder.nomeEmpresa.setText(empresa.getNome());
-    holder.categoria.setText(empresa.getCategoria() + " - ");
-    holder.tempo.setText(empresa.getTempo() + " Min");
-    holder.entrega.setText("R$ " + empresa.getPrecoEntrega().toString());
+    holder.categoria.setText(empresa.getCategoria().concat(context.getString(R.string.separador)));
+    holder.entrega.setText(context.getString(R.string.simbolo_reais).concat(empresa.getPrecoEntrega().toString()));
+    holder.tempo.setText(empresa.getTempo().concat(context.getString(R.string.sigla_min)));
 
     //Carregar imagem
     String urlImagem = empresa.getUrlImagem();
     if (urlImagem == null || urlImagem.isEmpty()) {
       Picasso.get().load(R.drawable.perfil).into(holder.imagemEmpresa);
-
     } else {
       Picasso.get().load(urlImagem).into(holder.imagemEmpresa);
     }
@@ -57,7 +60,7 @@ public class AdapterEmpresa extends RecyclerView.Adapter<AdapterEmpresa.MyViewHo
     return empresas.size();
   }
 
-  public class MyViewHolder extends RecyclerView.ViewHolder {
+  public static class MyViewHolder extends RecyclerView.ViewHolder {
 
     ImageView imagemEmpresa;
     TextView nomeEmpresa;

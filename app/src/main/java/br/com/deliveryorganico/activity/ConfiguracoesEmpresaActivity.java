@@ -23,6 +23,7 @@ import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 import br.com.deliveryorganico.R;
 import br.com.deliveryorganico.helper.ConfiguracaoFirebase;
@@ -31,11 +32,12 @@ import br.com.deliveryorganico.model.Empresa;
 
 public class ConfiguracoesEmpresaActivity extends AppCompatActivity {
 
-  private EditText editEmpresaNome, editEmpresaCategoria,
-          editEmpresaTempo, editEmpresaTaxa;
-  private ImageView imagePerfilEmpresa;
-
   private static final int SELECAO_GALERIA = 200;
+  private EditText editEmpresaNome;
+  private EditText editEmpresaCategoria;
+  private EditText editEmpresaTempo;
+  private EditText editEmpresaTaxa;
+  private ImageView imagePerfilEmpresa;
   private StorageReference storageReference;
   private DatabaseReference firebaseRef;
   private String idUsuarioLogado;
@@ -95,9 +97,7 @@ public class ConfiguracoesEmpresaActivity extends AppCompatActivity {
           urlImagemSelecionada = empresa.getUrlImagem();
 
           if (!urlImagemSelecionada.equals("")) {
-            Picasso.get()
-                    .load(urlImagemSelecionada)
-                    .into(imagePerfilEmpresa);
+            Picasso.get().load(urlImagemSelecionada).into(imagePerfilEmpresa);
           }
 
         }
@@ -106,7 +106,7 @@ public class ConfiguracoesEmpresaActivity extends AppCompatActivity {
 
       @Override
       public void onCancelled(@NonNull DatabaseError databaseError) {
-
+        // nao faz nada
       }
     });
 
@@ -119,6 +119,7 @@ public class ConfiguracoesEmpresaActivity extends AppCompatActivity {
     String taxa = editEmpresaTaxa.getText().toString();
     String categoria = editEmpresaCategoria.getText().toString();
     String tempo = editEmpresaTempo.getText().toString();
+
 
     if (!nome.isEmpty()) {
       if (!taxa.isEmpty()) {
@@ -151,8 +152,7 @@ public class ConfiguracoesEmpresaActivity extends AppCompatActivity {
   }
 
   private void exibirMensagem(String texto) {
-    Toast.makeText(this, texto, Toast.LENGTH_SHORT)
-            .show();
+    Toast.makeText(this, texto, Toast.LENGTH_SHORT).show();
   }
 
   @Override
@@ -165,13 +165,7 @@ public class ConfiguracoesEmpresaActivity extends AppCompatActivity {
       try {
 
         if (requestCode == SELECAO_GALERIA) {
-          Uri localImagem = data.getData();
-          imagem = MediaStore.Images
-                  .Media
-                  .getBitmap(
-                          getContentResolver(),
-                          localImagem
-                  );
+          imagem = obterImagemDaGaleria(data.getData());
         }
 
         if (imagem != null) {
@@ -192,10 +186,8 @@ public class ConfiguracoesEmpresaActivity extends AppCompatActivity {
                   "Erro ao fazer upload da imagem",
                   Toast.LENGTH_SHORT).show()).addOnSuccessListener(taskSnapshot -> {
 
-            if (taskSnapshot.getMetadata() != null) {
-              if (taskSnapshot.getMetadata().getReference() != null) {
-                urlImagemSelecionada = taskSnapshot.getMetadata().getReference().getDownloadUrl().toString();
-              }
+            if (taskSnapshot.getMetadata() != null && taskSnapshot.getMetadata().getReference() != null) {
+              urlImagemSelecionada = taskSnapshot.getMetadata().getReference().getDownloadUrl().toString();
             }
             Toast.makeText(ConfiguracoesEmpresaActivity.this,
                     "Sucesso ao fazer upload da imagem",
@@ -211,6 +203,10 @@ public class ConfiguracoesEmpresaActivity extends AppCompatActivity {
 
     }
 
+  }
+
+  private Bitmap obterImagemDaGaleria(Uri data) throws IOException {
+    return MediaStore.Images.Media.getBitmap(getContentResolver(), data);
   }
 
   private void inicializarComponentes() {

@@ -5,47 +5,46 @@ import com.google.firebase.database.DatabaseReference;
 import br.com.deliveryorganico.helper.ConfiguracaoFirebase;
 
 
-
 public class Usuario {
 
-    private String idUsuario;
-    private String nome;
-    private String endereco;
+  private String idUsuario;
+  private String nome;
+  private String endereco;
 
-    public Usuario() {
-    }
+  public Usuario() {
+  }
 
-    public void salvar(){
+  public void salvar() {
 
-        DatabaseReference firebaseRef = ConfiguracaoFirebase.getFirebase();
-        DatabaseReference usuarioRef = firebaseRef
-                .child("usuarios")
-                .child( getIdUsuario() );
-        usuarioRef.setValue(this);
+    DatabaseReference firebaseRef = ConfiguracaoFirebase.getFirebase();
+    DatabaseReference usuarioRef = firebaseRef
+            .child("usuarios")
+            .child(getIdUsuario());
+    usuarioRef.setValue(this);
 
-    }
+  }
 
-    public String getIdUsuario() {
-        return idUsuario;
-    }
+  public String getIdUsuario() {
+    return idUsuario;
+  }
 
-    public void setIdUsuario(String idUsuario) {
-        this.idUsuario = idUsuario;
-    }
+  public void setIdUsuario(String idUsuario) {
+    this.idUsuario = idUsuario;
+  }
 
-    public String getNome() {
-        return nome;
-    }
+  public String getNome() {
+    return nome;
+  }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+  public void setNome(String nome) {
+    this.nome = nome;
+  }
 
-    public String getEndereco() {
-        return endereco;
-    }
+  public String getEndereco() {
+    return endereco;
+  }
 
-    public void setEndereco(String endereco) {
-        this.endereco = endereco;
-    }
+  public void setEndereco(String endereco) {
+    this.endereco = endereco;
+  }
 }
