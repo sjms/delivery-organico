@@ -9,32 +9,36 @@ import com.google.firebase.storage.StorageReference;
 
 public class ConfiguracaoFirebase {
 
-    private static DatabaseReference referenciaFirebase;
-    private static FirebaseAuth referenciaAutenticacao;
-    private static StorageReference referenciaStorage;
+  private ConfiguracaoFirebase() {
+    //construtor privado
+  }
 
-    //retorna a referencia do database
-    public static DatabaseReference getFirebase(){
-        if( referenciaFirebase == null ){
-            referenciaFirebase = FirebaseDatabase.getInstance().getReference();
-        }
-        return referenciaFirebase;
-    }
+  private static DatabaseReference referenciaFirebase;
+  private static FirebaseAuth referenciaAutenticacao;
+  private static StorageReference referenciaStorage;
 
-    //retorna a instancia do FirebaseAuth
-    public static FirebaseAuth getFirebaseAutenticacao(){
-        if( referenciaAutenticacao == null ){
-            referenciaAutenticacao = FirebaseAuth.getInstance();
-        }
-        return referenciaAutenticacao;
+  //retorna a referencia do database
+  public static DatabaseReference getFirebase() {
+    if (referenciaFirebase == null) {
+      referenciaFirebase = FirebaseDatabase.getInstance().getReference();
     }
+    return referenciaFirebase;
+  }
 
-    //Retorna instancia do FirebaseStorage
-    public static StorageReference getFirebaseStorage(){
-        if( referenciaStorage == null ){
-            referenciaStorage = FirebaseStorage.getInstance().getReference();
-        }
-        return referenciaStorage;
+  //retorna a instancia do FirebaseAuth
+  public static FirebaseAuth getFirebaseAutenticacao() {
+    if (referenciaAutenticacao == null) {
+      referenciaAutenticacao = FirebaseAuth.getInstance();
     }
+    return referenciaAutenticacao;
+  }
+
+  //Retorna instancia do FirebaseStorage
+  public static StorageReference getFirebaseStorage() {
+    if (referenciaStorage == null) {
+      referenciaStorage = FirebaseStorage.getInstance().getReference();
+    }
+    return referenciaStorage;
+  }
 
 }

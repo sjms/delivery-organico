@@ -1,3 +1,17 @@
 <resources>
-    <string name="app_name">Delivery Orgânico</string>
+  <!-- \u0020 = espaços -->
+  <string name="app_name">Delivery Orgânico</string>
+  <string name="quantidade_abreviado">\qtd:\u0020\</string>
+  <string name="simbolo_reais">\R$\u0020\</string>
+  <string name="formato_decimal">\0.00\</string>
+  <string name="sigla_empresa">\E\</string>
+  <string name="sigla_usuario">\U\</string>
+  <string name="usuario_exemplo">\Fulano\</string>
+  <string name="endereco_exemplo">\Endereço: Quadra 202 Conjunto 2 São Sebastião - DF\</string>
+  <string name="pagamento_exemplo">\Pgto: Dinheiro\</string>
+  <string name="pedido_teste_exemplo">\Obs: teste\</string>
+  <string name="pedido_exemplo">\1) Queijo minas (1 X R$ 21.50)\</string>
+  <string name="separador">\u0020-\u0020\</string>
+  <string name="sigla_min">\u0020 Min\</string>
+  <string name="cadastro_ok">\Cadastro realizado com sucesso!\</string>
 </resources>

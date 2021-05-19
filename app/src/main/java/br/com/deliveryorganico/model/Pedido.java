@@ -10,158 +10,158 @@ import br.com.deliveryorganico.helper.ConfiguracaoFirebase;
 
 public class Pedido {
 
-    private String idUsuario;
-    private String idEmpresa;
-    private String idPedido;
-    private String nome;
-    private String endereco;
-    private List<ItemPedido> itens;
-    private Double total;
-    private String status = "pendente";
-    private int metodoPagamento;
-    private String observacao;
+  private String idUsuario;
+  private String idEmpresa;
+  private String idPedido;
+  private String nome;
+  private String endereco;
+  private List<ItemPedido> itens;
+  private Double total;
+  private String status = "pendente";
+  private int metodoPagamento;
+  private String observacao;
 
-    public Pedido() {
-    }
+  public Pedido() {
+  }
 
-    public Pedido(String idUsu, String idEmp) {
+  public Pedido(String idUsu, String idEmp) {
 
-        setIdUsuario( idUsu );
-        setIdEmpresa( idEmp );
+    setIdUsuario(idUsu);
+    setIdEmpresa(idEmp);
 
-        DatabaseReference firebaseRef = ConfiguracaoFirebase.getFirebase();
-        DatabaseReference pedidoRef = firebaseRef
-                .child("pedidos_usuario")
-                .child( idEmp )
-                .child( idUsu );
-        setIdPedido( pedidoRef.push().getKey() );
+    DatabaseReference firebaseRef = ConfiguracaoFirebase.getFirebase();
+    DatabaseReference pedidoRef = firebaseRef
+            .child("pedidos_usuario")
+            .child(idEmp)
+            .child(idUsu);
+    setIdPedido(pedidoRef.push().getKey());
 
-    }
+  }
 
-    public void salvar(){
+  public void salvar() {
 
-        DatabaseReference firebaseRef = ConfiguracaoFirebase.getFirebase();
-        DatabaseReference pedidoRef = firebaseRef
-                .child("pedidos_usuario")
-                .child( getIdEmpresa() )
-                .child( getIdUsuario() );
-        pedidoRef.setValue( this );
+    DatabaseReference firebaseRef = ConfiguracaoFirebase.getFirebase();
+    DatabaseReference pedidoRef = firebaseRef
+            .child("pedidos_usuario")
+            .child(getIdEmpresa())
+            .child(getIdUsuario());
+    pedidoRef.setValue(this);
 
-    }
+  }
 
-    public void remover(){
+  public void remover() {
 
-        DatabaseReference firebaseRef = ConfiguracaoFirebase.getFirebase();
-        DatabaseReference pedidoRef = firebaseRef
-                .child("pedidos_usuario")
-                .child( getIdEmpresa() )
-                .child( getIdUsuario() );
-        pedidoRef.removeValue();
+    DatabaseReference firebaseRef = ConfiguracaoFirebase.getFirebase();
+    DatabaseReference pedidoRef = firebaseRef
+            .child("pedidos_usuario")
+            .child(getIdEmpresa())
+            .child(getIdUsuario());
+    pedidoRef.removeValue();
 
-    }
+  }
 
-    public void confimar(){
+  public void confimar() {
 
-        DatabaseReference firebaseRef = ConfiguracaoFirebase.getFirebase();
-        DatabaseReference pedidoRef = firebaseRef
-                .child("pedidos")
-                .child( getIdEmpresa() )
-                .child( getIdPedido() );
-        pedidoRef.setValue( this );
+    DatabaseReference firebaseRef = ConfiguracaoFirebase.getFirebase();
+    DatabaseReference pedidoRef = firebaseRef
+            .child("pedidos")
+            .child(getIdEmpresa())
+            .child(getIdPedido());
+    pedidoRef.setValue(this);
 
-    }
+  }
 
-    public void atualizarStatus(){
+  public void atualizarStatus() {
 
-        HashMap<String, Object> status = new HashMap<>();
-        status.put("status", getStatus() );
+    HashMap<String, Object> status = new HashMap<>();
+    status.put("status", getStatus());
 
-        DatabaseReference firebaseRef = ConfiguracaoFirebase.getFirebase();
-        DatabaseReference pedidoRef = firebaseRef
-                .child("pedidos")
-                .child( getIdEmpresa() )
-                .child( getIdPedido() );
-        pedidoRef.updateChildren( status );
+    DatabaseReference firebaseRef = ConfiguracaoFirebase.getFirebase();
+    DatabaseReference pedidoRef = firebaseRef
+            .child("pedidos")
+            .child(getIdEmpresa())
+            .child(getIdPedido());
+    pedidoRef.updateChildren(status);
 
-    }
+  }
 
-    public String getIdUsuario() {
-        return idUsuario;
-    }
+  public String getIdUsuario() {
+    return idUsuario;
+  }
 
-    public void setIdUsuario(String idUsuario) {
-        this.idUsuario = idUsuario;
-    }
+  public void setIdUsuario(String idUsuario) {
+    this.idUsuario = idUsuario;
+  }
 
-    public String getIdEmpresa() {
-        return idEmpresa;
-    }
+  public String getIdEmpresa() {
+    return idEmpresa;
+  }
 
-    public void setIdEmpresa(String idEmpresa) {
-        this.idEmpresa = idEmpresa;
-    }
+  public void setIdEmpresa(String idEmpresa) {
+    this.idEmpresa = idEmpresa;
+  }
 
-    public String getIdPedido() {
-        return idPedido;
-    }
+  public String getIdPedido() {
+    return idPedido;
+  }
 
-    public void setIdPedido(String idPedido) {
-        this.idPedido = idPedido;
-    }
+  public void setIdPedido(String idPedido) {
+    this.idPedido = idPedido;
+  }
 
-    public String getNome() {
-        return nome;
-    }
+  public String getNome() {
+    return nome;
+  }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+  public void setNome(String nome) {
+    this.nome = nome;
+  }
 
-    public String getEndereco() {
-        return endereco;
-    }
+  public String getEndereco() {
+    return endereco;
+  }
 
-    public void setEndereco(String endereco) {
-        this.endereco = endereco;
-    }
+  public void setEndereco(String endereco) {
+    this.endereco = endereco;
+  }
 
-    public List<ItemPedido> getItens() {
-        return itens;
-    }
+  public List<ItemPedido> getItens() {
+    return itens;
+  }
 
-    public void setItens(List<ItemPedido> itens) {
-        this.itens = itens;
-    }
+  public void setItens(List<ItemPedido> itens) {
+    this.itens = itens;
+  }
 
-    public Double getTotal() {
-        return total;
-    }
+  public Double getTotal() {
+    return total;
+  }
 
-    public void setTotal(Double total) {
-        this.total = total;
-    }
+  public void setTotal(Double total) {
+    this.total = total;
+  }
 
-    public String getStatus() {
-        return status;
-    }
+  public String getStatus() {
+    return status;
+  }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
+  public void setStatus(String status) {
+    this.status = status;
+  }
 
-    public int getMetodoPagamento() {
-        return metodoPagamento;
-    }
+  public int getMetodoPagamento() {
+    return metodoPagamento;
+  }
 
-    public void setMetodoPagamento(int metodoPagamento) {
-        this.metodoPagamento = metodoPagamento;
-    }
+  public void setMetodoPagamento(int metodoPagamento) {
+    this.metodoPagamento = metodoPagamento;
+  }
 
-    public String getObservacao() {
-        return observacao;
-    }
+  public String getObservacao() {
+    return observacao;
+  }
 
-    public void setObservacao(String observacao) {
-        this.observacao = observacao;
-    }
+  public void setObservacao(String observacao) {
+    this.observacao = observacao;
+  }
 }

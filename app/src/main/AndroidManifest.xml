@@ -1,38 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="br.com.deliveryorganico">
+  package="br.com.deliveryorganico">
 
-    <application
-        android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name="br.com.deliveryorganico.activity.SplashActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name="br.com.deliveryorganico.activity.AutenticacaoActivity" />
-        <activity android:name="br.com.deliveryorganico.activity.HomeActivity" />
-        <activity android:name="br.com.deliveryorganico.activity.EmpresaActivity" />
-        <activity
-            android:name="br.com.deliveryorganico.activity.ConfiguracoesEmpresaActivity"
-            android:parentActivityName="br.com.deliveryorganico.activity.EmpresaActivity" />
-        <activity
-            android:name="br.com.deliveryorganico.activity.NovoProdutoEmpresaActivity"
-            android:parentActivityName="br.com.deliveryorganico.activity.EmpresaActivity" />
-        <activity
-            android:name="br.com.deliveryorganico.activity.ConfiguracoesUsuarioActivity"
-            android:parentActivityName="br.com.deliveryorganico.activity.HomeActivity" />
-        <activity
-            android:name="br.com.deliveryorganico.activity.CardapioActivity"
-            android:parentActivityName="br.com.deliveryorganico.activity.HomeActivity" />
-        <activity android:name="br.com.deliveryorganico.activity.PedidosActivity"
-            android:parentActivityName="br.com.deliveryorganico.activity.EmpresaActivity"></activity>
-    </application>
+  <application
+    android:icon="@mipmap/ic_launcher"
+    android:label="@string/app_name"
+    android:roundIcon="@mipmap/ic_launcher"
+    android:supportsRtl="true"
+    android:theme="@style/AppTheme">
+    <activity android:name="br.com.deliveryorganico.activity.SplashActivity">
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN" />
+        <category android:name="android.intent.category.LAUNCHER" />
+      </intent-filter>
+    </activity>
+    <activity android:name="br.com.deliveryorganico.activity.AutenticacaoActivity" />
+    <activity android:name="br.com.deliveryorganico.activity.HomeActivity" />
+    <activity android:name="br.com.deliveryorganico.activity.EmpresaActivity" />
+    <activity
+      android:name="br.com.deliveryorganico.activity.ConfiguracoesUsuarioActivity"
+      android:parentActivityName="br.com.deliveryorganico.activity.HomeActivity" />
+    <activity
+      android:name="br.com.deliveryorganico.activity.ConfiguracoesEmpresaActivity"
+      android:parentActivityName="br.com.deliveryorganico.activity.EmpresaActivity" />
+    <activity
+      android:name="br.com.deliveryorganico.activity.PedidosActivity"
+      android:parentActivityName="br.com.deliveryorganico.activity.EmpresaActivity" />
+    <activity
+      android:name="br.com.deliveryorganico.activity.CardapioActivity"
+      android:parentActivityName="br.com.deliveryorganico.activity.HomeActivity" />
+    <activity
+      android:name="br.com.deliveryorganico.activity.NovoProdutoEmpresaActivity"
+      android:parentActivityName="br.com.deliveryorganico.activity.EmpresaActivity" />
+  </application>
 
 </manifest>
